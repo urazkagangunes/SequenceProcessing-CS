@@ -4,16 +4,16 @@ namespace SequenceProcessing.Sequence
 {
     public class LabelledSentence : Sentence
     {
-        private string _classLabel;
-        
+        private readonly string classLabel;
+
         public LabelledSentence(string classLabel) : base()
         {
-            _classLabel = classLabel;
+            this.classLabel = classLabel;
         }
 
         public string GetClassLabel()
         {
-            return _classLabel;
+            return classLabel;
         }
     }
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,8 +10,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Labeling" />
       <Folder Include="Sequence" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\ComputationalGraph-CS\ComputationalGraph\ComputationalGraph.csproj" />
     </ItemGroup>
 
 </Project>
