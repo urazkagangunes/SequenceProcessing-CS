@@ -1,130 +1,174 @@
 using System;
 using System.Collections.Generic;
-using Classification.Parameter;
-using Math;
-using SequenceProcessing.Sequence;
+using ComputationalGraph.Function;
+using ComputationalGraph.Node;
+using SequenceProcessing.Functions;
+using SequenceProcessing.Parameters;
+using Tensor = Math.Tensor;
 
-namespace SequenceProcessing.Classification {
-    
-    public class GatedRecurrentUnitModel : Model {
-        
-        private List<Matrix> _aVectors;
-        private List<Matrix> _zVectors;
-        private List<Matrix> _rVectors;
-        private List<Matrix> _zWeights;
-        private List<Matrix> _zRecurrentWeights;
-        private List<Matrix> _rWeights;
-        private List<Matrix> _rRecurrentWeights;
-
-
-        public GatedRecurrentUnitModel(SequenceCorpus corpus, DeepNetworkParameter parameters, Initializer.Initializer initializer) : base(corpus, parameters, initializer) {
-            var epoch = parameters.GetEpoch(); 
-            var learningRate = parameters.GetLearningRate(); 
-            _aVectors = new List<Matrix>(); 
-            _zVectors = new List<Matrix>(); 
-            _rVectors = new List<Matrix>(); 
-            _zWeights = new List<Matrix>(); 
-            _zRecurrentWeights = new List<Matrix>(); 
-            _rWeights = new List<Matrix>(); 
-            _rRecurrentWeights = new List<Matrix>(); 
-            for (var i = 0; i < parameters.LayerSize(); i++) { 
-                _aVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
-                _zVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
-                _rVectors.Add(new Matrix(parameters.GetHiddenNodes(i), 1)); 
-                _zWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
-                _rWeights.Add(initializer.Initialize(_layers[i + 1].GetRow(), _layers[i].GetRow() + 1, new Random(parameters.GetSeed()))); 
-                _zRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
-                _rRecurrentWeights.Add(initializer.Initialize(parameters.GetHiddenNodes(i), parameters.GetHiddenNodes(i), new Random(parameters.GetSeed()))); 
-            } 
-            for (var i = 0; i < epoch; i++) { 
-                corpus.ShuffleSentences(parameters.GetSeed()); 
-                for (var j = 0; j < corpus.SentenceCount(); j++) { 
-                    var sentence = corpus.GetSentence(j); 
-                    for (var k = 0; k < sentence.WordCount(); k++) { 
-                        var word = (LabelledVectorizedWord) sentence.GetWord(k); 
-                        CalculateOutput(word); 
-                        var rMinusY = CalculateRMinusY(word); 
-                        rMinusY.MultiplyWithConstant(learningRate); 
-                        var deltaWeights = new List<Matrix>(); 
-                        var deltaRecurrentWeights = new List<Matrix>(); 
-                        var rDeltaWeights = new List<Matrix>(); 
-                        var rDeltaRecurrentWeights = new List<Matrix>(); 
-                        var zDeltaWeights = new List<Matrix>(); 
-                        var zDeltaRecurrentWeights = new List<Matrix>(); 
-                        deltaWeights.Add(rMinusY.Multiply(_layers[_layers.Count - 2].Transpose())); 
-                        deltaWeights.Add(rMinusY.Transpose().Multiply(_weights[_weights.Count - 1].Partial(0, _weights[_weights.Count - 1].GetRow() - 1, 0, _weights[_weights.Count - 1].GetColumn() - 2)).Transpose()); 
-                        deltaRecurrentWeights.Add((Matrix) deltaWeights[deltaWeights.Count - 1].Clone()); 
-                        rDeltaWeights.Add((Matrix) deltaWeights[deltaWeights.Count - 1].Clone()); 
-                        rDeltaRecurrentWeights.Add((Matrix) deltaWeights[deltaWeights.Count - 1].Clone()); 
-                        zDeltaWeights.Add((Matrix) deltaWeights[deltaWeights.Count - 1].Clone()); 
-                        zDeltaRecurrentWeights.Add((Matrix) deltaWeights[deltaWeights.Count - 1].Clone()); 
-                        for (var l = parameters.LayerSize() - 1; l >= 0; l--) { 
-                            var delta = deltaWeights[deltaWeights.Count - 1].ElementProduct(_zVectors[l]).ElementProduct(Derivative(_aVectors[l], global::Classification.Parameter.ActivationFunction.TANH));
-                            var zDelta = zDeltaWeights[zDeltaWeights.Count - 1].ElementProduct(_aVectors[l].Difference(_oldLayers[l])).ElementProduct(Derivative(_zVectors[l], _activationFunction)); 
-                            var rDelta = rDeltaWeights[rDeltaWeights.Count - 1].ElementProduct(_aVectors[l].Difference(_oldLayers[l])).ElementProduct(Derivative(_zVectors[l], _activationFunction)).Transpose().Multiply(_recurrentWeights[l]).Transpose().ElementProduct(_oldLayers[l]).ElementProduct(Derivative(_rVectors[l], _activationFunction)); 
-                            deltaWeights[deltaWeights.Count - 1] = delta.Multiply(_layers[l].Transpose()); 
-                            deltaRecurrentWeights[deltaRecurrentWeights.Count - 1] = delta.Multiply((_rVectors[l].ElementProduct(_oldLayers[l])).Transpose()); 
-                            zDeltaWeights[zDeltaWeights.Count - 1] = zDelta.Multiply(_layers[l].Transpose()); 
-                            zDeltaRecurrentWeights[zDeltaRecurrentWeights.Count - 1] = zDelta.Multiply(_oldLayers[l].Transpose()); 
-                            rDeltaWeights[rDeltaWeights.Count - 1] = rDelta.Multiply(_layers[l].Transpose()); 
-                            rDeltaRecurrentWeights[rDeltaRecurrentWeights.Count - 1] = rDelta.Multiply(_oldLayers[l].Transpose()); 
-                            if (l > 0) { 
-                                deltaWeights.Add(delta.Transpose().Multiply(_weights[l].Partial(0, _weights[l].GetRow() - 1, 0, _weights[l].GetColumn() - 2)).Transpose()); 
-                                deltaRecurrentWeights.Add(delta.Transpose().Multiply(_weights[l].Partial(0, _weights[l].GetRow() - 1, 0, _weights[l].GetColumn() - 2)).Transpose()); 
-                                zDeltaWeights.Add(zDelta.Transpose().Multiply(_zWeights[l].Partial(0, _zWeights[l].GetRow() - 1, 0, _zWeights[l].GetColumn() - 2)).Transpose()); 
-                                zDeltaRecurrentWeights.Add(zDelta.Transpose().Multiply(_zWeights[l].Partial(0, _zWeights[l].GetRow() - 1, 0, _zWeights[l].GetColumn() - 2)).Transpose()); 
-                                rDeltaWeights.Add(rDelta.Transpose().Multiply(_rWeights[l].Partial(0, _rWeights[l].GetRow() - 1, 0, _rWeights[l].GetColumn() - 2)).Transpose()); 
-                                rDeltaRecurrentWeights.Add(rDelta.Transpose().Multiply(_rWeights[l].Partial(0, _rWeights[l].GetRow() - 1, 0, _rWeights[l].GetColumn() - 2)).Transpose()); 
-                            } 
-                        } 
-                        _weights[_weights.Count - 1].Add(deltaWeights[0]); 
-                        deltaWeights.RemoveAt(0); 
-                        for (var l = 0; l < deltaWeights.Count; l++) { 
-                            _weights[_weights.Count - l - 2].Add(deltaWeights[l]); 
-                            _rWeights[_rWeights.Count - l - 1].Add(rDeltaWeights[l]); 
-                            _zWeights[_zWeights.Count - l - 1].Add(zDeltaWeights[l]); 
-                            _recurrentWeights[_recurrentWeights.Count - l - 1].Add(deltaRecurrentWeights[l]); 
-                            _zRecurrentWeights[_zRecurrentWeights.Count - l - 1].Add(zDeltaRecurrentWeights[l]); 
-                            _rRecurrentWeights[_rRecurrentWeights.Count - l - 1].Add(rDeltaRecurrentWeights[l]); 
-                        } 
-                        Clear(); 
-                    } 
-                    ClearOldValues(); 
-                } 
-                learningRate *= parameters.GetEtaDecrease(); 
-            } 
+namespace SequenceProcessing.Classification
+{
+    [Serializable]
+    public class GatedRecurrentUnitModel : RecurrentNeuralNetworkModel
+    {
+        public GatedRecurrentUnitModel(ComputationalGraph.NeuralNetworkParameter parameter, int wordEmbeddingLength)
+            : base(parameter, wordEmbeddingLength)
+        {
+            this.switches = new List<Switch>();
         }
 
-        protected override void CalculateOutput(LabelledVectorizedWord word) {
-            CreateInputVector(word);
-            for (var l = 0; l < _layers.Count - 2; l++) {
-                _rVectors[l].Add(_rWeights[l].Multiply(_layers[l]));
-                _zVectors[l].Add(_zWeights[l].Multiply(_layers[l]));
-                _rVectors[l].Add(_rRecurrentWeights[l].Multiply(_oldLayers[l]));
-                _zVectors[l].Add(_zRecurrentWeights[l].Multiply(_oldLayers[l]));
-                _rVectors[l] = ActivationFunction(_rVectors[l], _activationFunction);
-                _zVectors[l] = ActivationFunction(_zVectors[l], _activationFunction);
-                _aVectors[l].Add(_recurrentWeights[l].Multiply(_rVectors[l].ElementProduct(_oldLayers[l])));
-                _aVectors[l].Add(_weights[l].Multiply(_layers[l]));
-                _aVectors[l] = ActivationFunction(_aVectors[l], global::Classification.Parameter.ActivationFunction.TANH);
-                _layers[l + 1].Add(CalculateOneMinusMatrix(_zVectors[l]).ElementProduct(_oldLayers[l]));
-                _layers[l + 1].Add(_zVectors[l].ElementProduct(_aVectors[l]));
-                _layers[l + 1] = Biased(_layers[l + 1]);
-            }
-            _layers[_layers.Count - 1].Add(_weights[_weights.Count - 1].Multiply(_layers[_layers.Count - 2])); 
-            NormalizeOutput();
-        }
-        
-        protected override void Clear() {
-            OldLayersUpdate();
-            SetLayersValuesToZero();
-            for (var l = 0; l < _layers.Count - 2; l++) {
-                for (var m = 0; m < _aVectors[l].GetRow(); m++) {
-                    _aVectors[l].SetValue(m, 0, 0.0);
-                    _zVectors[l].SetValue(m, 0, 0.0);
-                    _rVectors[l].SetValue(m, 0, 0.0);
+        public override void train(List<Tensor> trainSet)
+        {
+            Random random = new Random(parameters.GetSeed());
+            int timeStep = findTimeStep(trainSet);
+
+            List<ComputationalNode> weights = new List<ComputationalNode>();
+            List<ComputationalNode> recurrentWeights = new List<ComputationalNode>();
+
+            int currentLength = wordEmbeddingLength + 1;
+
+            for (int i = 0; i < ((RecurrentNeuralNetworkParameter)parameters).size(); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    weights.Add(
+                        new MultiplicationNode(
+                            new Tensor(
+                                parameters.initializeWeights(
+                                    currentLength,
+                                    ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
+                                    random),
+                                new int[]
+                                {
+                                    currentLength,
+                                    ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i)
+                                }
+                            )
+                        )
+                    );
+
+                    recurrentWeights.Add(
+                        new MultiplicationNode(
+                            new Tensor(
+                                parameters.initializeWeights(
+                                    ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
+                                    ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
+                                    random),
+                                new int[]
+                                {
+                                    ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
+                                    ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i)
+                                }
+                            )
+                        )
+                    );
                 }
+
+                currentLength = ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i) + 1;
             }
+
+            weights.Add(
+                new MultiplicationNode(
+                    new Tensor(
+                        parameters.initializeWeights(
+                            currentLength,
+                            ((RecurrentNeuralNetworkParameter)parameters).getClassLabelSize(),
+                            random),
+                        new int[]
+                        {
+                            currentLength,
+                            ((RecurrentNeuralNetworkParameter)parameters).getClassLabelSize()
+                        }
+                    )
+                )
+            );
+
+            List<ComputationalNode> currentOldLayers = new List<ComputationalNode>();
+            List<ComputationalNode> outputNodes = new List<ComputationalNode>();
+
+            for (int k = 0; k < timeStep; k++)
+            {
+                this.switches.Add(new Switch());
+
+                List<ComputationalNode> newOldLayers = new List<ComputationalNode>();
+                ComputationalNode input = new MultiplicationNode(false, true);
+                inputNodes.Add(input);
+
+                ComputationalNode current = input;
+
+                for (int i = 0; i < ((RecurrentNeuralNetworkParameter)parameters).size(); i++)
+                {
+                    ComputationalNode aw;
+                    ComputationalNode aFunction;
+
+                    if (currentOldLayers.Count > 0)
+                    {
+                        aw = this.addEdge(current, weights[i * 3]);
+
+                        ComputationalNode oWithoutBias = this.addEdge(currentOldLayers[i], new RemoveBias());
+                        ComputationalNode ou = this.addEdge(oWithoutBias, recurrentWeights[i * 3]);
+                        ComputationalNode awOu = this.addAdditionEdge(aw, ou, false);
+
+                        ComputationalNode zt = this.addEdge(
+                            awOu,
+                            ((RecurrentNeuralNetworkParameter)parameters).getActivationFunction(i * 2));
+
+                        aw = this.addEdge(current, weights[(i * 3) + 1]);
+                        ou = this.addEdge(oWithoutBias, recurrentWeights[(i * 3) + 1]);
+                        awOu = this.addAdditionEdge(aw, ou, false);
+
+                        ComputationalNode rt = this.addEdge(
+                            awOu,
+                            ((RecurrentNeuralNetworkParameter)parameters).getActivationFunction((i * 2) + 1));
+
+                        aw = this.addEdge(current, weights[(i * 3) + 2]);
+                        ComputationalNode rtHt1 = this.addEdge(rt, oWithoutBias, false, true);
+                        ou = this.addEdge(rtHt1, recurrentWeights[(i * 3) + 2]);
+                        awOu = this.addAdditionEdge(aw, ou, false);
+
+                        ComputationalNode hTemp = this.addEdge(awOu, new Tanh());
+                        ComputationalNode minusZt = this.addEdge(zt, new Negation());
+                        ComputationalNode oneMinusZt = this.addEdge(minusZt, new AdditionByConstant(1.0));
+
+                        aw = this.addEdge(oneMinusZt, oWithoutBias, false, true);
+                        ou = this.addEdge(hTemp, zt, false, true);
+                        aFunction = this.addAdditionEdge(aw, ou, true);
+                    }
+                    else
+                    {
+                        aw = this.addEdge(current, weights[i * 3]);
+                        ComputationalNode zt = this.addEdge(
+                            aw,
+                            ((RecurrentNeuralNetworkParameter)parameters).getActivationFunction(i * 2));
+
+                        aw = this.addEdge(current, weights[(i * 3) + 2]);
+                        ComputationalNode hTemp = this.addEdge(aw, new Tanh());
+
+                        aFunction = this.addEdge(zt, hTemp, true, true);
+                    }
+
+                    current = aFunction;
+                    newOldLayers.Add(aFunction);
+                }
+
+                currentOldLayers = newOldLayers;
+
+                ComputationalNode node = this.addEdge(current, weights[weights.Count - 1]);
+                outputNodes.Add(this.addEdge(node, switches[k]));
+            }
+
+            ConcatenatedNode concatenatedNode = (ConcatenatedNode)this.concatEdges(outputNodes, 0);
+            this.outputNode = this.addEdge(concatenatedNode, new Softmax());
+
+            ComputationalNode classLabelNode = new ComputationalNode(false, false);
+            this.inputNodes.Add(classLabelNode);
+
+            List<ComputationalNode> lossInputs = new List<ComputationalNode>();
+            lossInputs.Add(this.outputNode);
+            lossInputs.Add(classLabelNode);
+
+            this.addFunctionEdge(lossInputs, parameters.getLossFunction(), false);
+            train(trainSet, random);
         }
     }
 }

@@ -1,29 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "FUazPkqm110=",
-  "success": false,
+  "dgSpecHash": "b0W2Tp9diD8=",
+  "success": true,
   "projectFilePath": "C:\\Users\\ASUS\\RiderProjects\\SequenceProcessing-CS\\SequenceProcessing\\SequenceProcessing.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-classification\\1.0.7\\nlptoolkit-classification.1.0.7.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-corpus\\1.0.8\\nlptoolkit-corpus.1.0.8.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-datastructure\\1.0.5\\nlptoolkit-datastructure.1.0.5.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-dictionary\\1.0.11\\nlptoolkit-dictionary.1.0.11.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-classification\\1.0.8\\nlptoolkit-classification.1.0.8.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-corpus\\1.0.17\\nlptoolkit-corpus.1.0.17.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-datastructure\\1.0.6\\nlptoolkit-datastructure.1.0.6.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-dictionary\\1.0.19\\nlptoolkit-dictionary.1.0.19.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-math\\1.0.9\\nlptoolkit-math.1.0.9.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-sampling\\1.0.3\\nlptoolkit-sampling.1.0.3.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-util\\1.0.6\\nlptoolkit-util.1.0.6.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-wordtovec\\1.0.5\\nlptoolkit-wordtovec.1.0.5.nupkg.sha512"
+    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-sampling\\1.0.4\\nlptoolkit-sampling.1.0.4.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-util\\1.0.8\\nlptoolkit-util.1.0.8.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\nlptoolkit-wordtovec\\1.0.6\\nlptoolkit-wordtovec.1.0.6.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: NlpToolkit-Classification from 1.0.8 to 1.0.7. Reference the package directly from the project to select a different version. \r\n SequenceProcessing -> NlpToolkit-ComputationalGraph -> NlpToolkit-Classification (>= 1.0.8) \r\n SequenceProcessing -> NlpToolkit-Classification (>= 1.0.7)",
-      "projectPath": "C:\\Users\\ASUS\\RiderProjects\\SequenceProcessing-CS\\SequenceProcessing\\SequenceProcessing.csproj",
-      "filePath": "C:\\Users\\ASUS\\RiderProjects\\SequenceProcessing-CS\\SequenceProcessing\\SequenceProcessing.csproj",
-      "libraryId": "NlpToolkit-Classification",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

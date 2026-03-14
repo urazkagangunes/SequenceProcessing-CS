@@ -2,54 +2,55 @@
   "version": 3,
   "targets": {
     "net8.0": {
-      "NlpToolkit-Classification/1.0.7": {
+      "NlpToolkit-Classification/1.0.8": {
         "type": "package",
         "dependencies": {
-          "NlpToolkit-DataStructure": "1.0.5",
-          "NlpToolkit-Math": "1.0.6",
-          "NlpToolkit-Sampling": "1.0.3",
-          "NlpToolkit-Util": "1.0.6"
+          "NlpToolkit-DataStructure": "1.0.6",
+          "NlpToolkit-Math": "1.0.8",
+          "NlpToolkit-Sampling": "1.0.4",
+          "NlpToolkit-Util": "1.0.8"
         },
         "compile": {
-          "lib/netcoreapp3.1/Classification.dll": {}
+          "lib/net8.0/Classification.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Classification.dll": {}
+          "lib/net8.0/Classification.dll": {}
         }
       },
-      "NlpToolkit-Corpus/1.0.8": {
+      "NlpToolkit-Corpus/1.0.17": {
         "type": "package",
         "dependencies": {
-          "NlpToolkit-DataStructure": "1.0.2",
-          "NlpToolkit-Dictionary": "1.0.11",
-          "NlpToolkit-Sampling": "1.0.3"
+          "NlpToolkit-DataStructure": "1.0.6",
+          "NlpToolkit-Dictionary": "1.0.19",
+          "NlpToolkit-Sampling": "1.0.4"
         },
         "compile": {
-          "lib/netcoreapp2.2/Corpus.dll": {}
+          "lib/net8.0/Corpus.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/Corpus.dll": {}
+          "lib/net8.0/Corpus.dll": {}
         }
       },
-      "NlpToolkit-DataStructure/1.0.5": {
+      "NlpToolkit-DataStructure/1.0.6": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp2.2/DataStructure.dll": {}
+          "lib/net8.0/DataStructure.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/DataStructure.dll": {}
+          "lib/net8.0/DataStructure.dll": {}
         }
       },
-      "NlpToolkit-Dictionary/1.0.11": {
+      "NlpToolkit-Dictionary/1.0.19": {
         "type": "package",
         "dependencies": {
-          "NlpToolkit-Math": "1.0.3"
+          "NlpToolkit-Math": "1.0.8",
+          "NlpToolkit-Util": "1.0.8"
         },
         "compile": {
-          "lib/netcoreapp2.2/Dictionary.dll": {}
+          "lib/net8.0/Dictionary.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/Dictionary.dll": {}
+          "lib/net8.0/Dictionary.dll": {}
         }
       },
       "NlpToolkit-Math/1.0.9": {
@@ -61,34 +62,34 @@
           "lib/net8.0/Math.dll": {}
         }
       },
-      "NlpToolkit-Sampling/1.0.3": {
+      "NlpToolkit-Sampling/1.0.4": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp2.2/Sampling.dll": {}
+          "lib/net8.0/Sampling.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/Sampling.dll": {}
+          "lib/net8.0/Sampling.dll": {}
         }
       },
-      "NlpToolkit-Util/1.0.6": {
+      "NlpToolkit-Util/1.0.8": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp2.2/Util.dll": {}
+          "lib/net8.0/Util.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/Util.dll": {}
+          "lib/net8.0/Util.dll": {}
         }
       },
-      "NlpToolkit-WordToVec/1.0.5": {
+      "NlpToolkit-WordToVec/1.0.6": {
         "type": "package",
         "dependencies": {
-          "NlpToolkit-Corpus": "1.0.8"
+          "NlpToolkit-Corpus": "1.0.17"
         },
         "compile": {
-          "lib/netcoreapp2.2/WordToVec.dll": {}
+          "lib/net8.0/WordToVec.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/WordToVec.dll": {}
+          "lib/net8.0/WordToVec.dll": {}
         }
       },
       "NlpToolkit-ComputationalGraph/1.0.0": {
@@ -108,51 +109,51 @@
     }
   },
   "libraries": {
-    "NlpToolkit-Classification/1.0.7": {
-      "sha512": "us0xuurAa1ZxTzdkBUIVLVD9huVBhomPqfVBTGjG2MdqhlXWQguje1kBKEbJwCZI+PRA03Gq243OFYkW0NMa2w==",
+    "NlpToolkit-Classification/1.0.8": {
+      "sha512": "feWjdvRSHTD2gCop9OjvKgCN5mka+wK0Yj3FBacj6dbbr0j8kqI722dH4g/b/98qvMywr+PeUbHnGNEsIIEqMA==",
       "type": "package",
-      "path": "nlptoolkit-classification/1.0.7",
+      "path": "nlptoolkit-classification/1.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp3.1/Classification.dll",
-        "nlptoolkit-classification.1.0.7.nupkg.sha512",
+        "lib/net8.0/Classification.dll",
+        "nlptoolkit-classification.1.0.8.nupkg.sha512",
         "nlptoolkit-classification.nuspec"
       ]
     },
-    "NlpToolkit-Corpus/1.0.8": {
-      "sha512": "osFBbibrVQDmbz9ZF4VfXSORSoh+FoKKixENOuhDF+rUG/yhUJCWSmTcLxTeMsMSyNgnLifDqeoQ3FA5rXMJwA==",
+    "NlpToolkit-Corpus/1.0.17": {
+      "sha512": "vDNgHMEoHzu2eAiFqyOEXYkRR2xpBfSqCzhxtsQ/Ku1FeVOzUnxPvFnEifJ6NvqF4IqiuZusyoYGAQuJhtQEUg==",
       "type": "package",
-      "path": "nlptoolkit-corpus/1.0.8",
+      "path": "nlptoolkit-corpus/1.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/Corpus.dll",
-        "nlptoolkit-corpus.1.0.8.nupkg.sha512",
+        "lib/net8.0/Corpus.dll",
+        "nlptoolkit-corpus.1.0.17.nupkg.sha512",
         "nlptoolkit-corpus.nuspec"
       ]
     },
-    "NlpToolkit-DataStructure/1.0.5": {
-      "sha512": "NHr6cj539ejFlN7tWIXL0y/izyc5UBoJo3jc3QT7WajI+Rs0LuAEF52gWsBA6uj2vZfRTaQBz7B8Oy0zRUUl7Q==",
+    "NlpToolkit-DataStructure/1.0.6": {
+      "sha512": "uzgBf4MyD6eAbohS9AjpbpBIo0JlRdHs8FHLvQdGaTXxqTEL1aiGjVibEs/jtJO/sQNZwvUBQhPktfwbfxMxcA==",
       "type": "package",
-      "path": "nlptoolkit-datastructure/1.0.5",
+      "path": "nlptoolkit-datastructure/1.0.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/DataStructure.dll",
-        "nlptoolkit-datastructure.1.0.5.nupkg.sha512",
+        "lib/net8.0/DataStructure.dll",
+        "nlptoolkit-datastructure.1.0.6.nupkg.sha512",
         "nlptoolkit-datastructure.nuspec"
       ]
     },
-    "NlpToolkit-Dictionary/1.0.11": {
-      "sha512": "EfYxrxnK71HWkach7Ztp21xDdqZTrSsU5lp5bMzQL7K8V0KIN5swH4/oDEhzsNFL5TNolwPjdPih7BzxeLUL6Q==",
+    "NlpToolkit-Dictionary/1.0.19": {
+      "sha512": "/5fNpftFXH7AO9lo3nsc+Jy9qk397wKU68mXfvBGqlUqDHlTQvFT4tUOp0xNCoFcTyyOi2y67W0m/OgP27sMKA==",
       "type": "package",
-      "path": "nlptoolkit-dictionary/1.0.11",
+      "path": "nlptoolkit-dictionary/1.0.19",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/Dictionary.dll",
-        "nlptoolkit-dictionary.1.0.11.nupkg.sha512",
+        "lib/net8.0/Dictionary.dll",
+        "nlptoolkit-dictionary.1.0.19.nupkg.sha512",
         "nlptoolkit-dictionary.nuspec"
       ]
     },
@@ -168,39 +169,39 @@
         "nlptoolkit-math.nuspec"
       ]
     },
-    "NlpToolkit-Sampling/1.0.3": {
-      "sha512": "DKmH9vV9v3Sjm9LivrhTkXGLA0WNHhYfDD4BPpn00up5H6uxnbHphbBc/3pioNqYy2sTsCYr0unHs++OrSllMg==",
+    "NlpToolkit-Sampling/1.0.4": {
+      "sha512": "kQ70uCGg5yAh61fhLbYz666Ckm/J/2NNTcs5PVWSU9CdWe4GKjINsq1Kvi/Sr6CW7CRvZIbtg8fZ47JfED2WMg==",
       "type": "package",
-      "path": "nlptoolkit-sampling/1.0.3",
+      "path": "nlptoolkit-sampling/1.0.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/Sampling.dll",
-        "nlptoolkit-sampling.1.0.3.nupkg.sha512",
+        "lib/net8.0/Sampling.dll",
+        "nlptoolkit-sampling.1.0.4.nupkg.sha512",
         "nlptoolkit-sampling.nuspec"
       ]
     },
-    "NlpToolkit-Util/1.0.6": {
-      "sha512": "yH/F/NLeLrFaq+LZ/eI2rcShXnaNeicKs3JJ0k9ZdAVE8bh8s9RPqnqBE72XetgmolDS8OdkEUs/PuJd3n5NSA==",
+    "NlpToolkit-Util/1.0.8": {
+      "sha512": "I9ifr9k5MuoEIiRJ8UUQQlHvFU8F3rgL4lKN5BuuJdKBQ6kkzxgFANB0rulky6ltbyXCppBjcwBI0a0zllDD+g==",
       "type": "package",
-      "path": "nlptoolkit-util/1.0.6",
+      "path": "nlptoolkit-util/1.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/Util.dll",
-        "nlptoolkit-util.1.0.6.nupkg.sha512",
+        "lib/net8.0/Util.dll",
+        "nlptoolkit-util.1.0.8.nupkg.sha512",
         "nlptoolkit-util.nuspec"
       ]
     },
-    "NlpToolkit-WordToVec/1.0.5": {
-      "sha512": "oLA20LC7Gs4grb+JSm/3xOFRWglEdaJvMuIEgJHqNaoj5xM+JCOirB98p5oA7oDhVymvoTjVXn/5z8NOiZ/fiw==",
+    "NlpToolkit-WordToVec/1.0.6": {
+      "sha512": "Rhf+6Y4QsI4eV/cLYJkLCQhas6XJZ9jl9Xc5197+UQfPk2UrUQ1UNtxoXFCOMUV0pMUXFhgptz8OE10cGd7onQ==",
       "type": "package",
-      "path": "nlptoolkit-wordtovec/1.0.5",
+      "path": "nlptoolkit-wordtovec/1.0.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/WordToVec.dll",
-        "nlptoolkit-wordtovec.1.0.5.nupkg.sha512",
+        "lib/net8.0/WordToVec.dll",
+        "nlptoolkit-wordtovec.1.0.6.nupkg.sha512",
         "nlptoolkit-wordtovec.nuspec"
       ]
     },
@@ -212,9 +213,10 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "NlpToolkit-Classification >= 1.0.7",
+      "NlpToolkit-Classification >= 1.0.8",
       "NlpToolkit-ComputationalGraph >= 1.0.0",
-      "NlpToolkit-WordToVec >= 1.0.5"
+      "NlpToolkit-Dictionary >= 1.0.19",
+      "NlpToolkit-WordToVec >= 1.0.6"
     ]
   },
   "packageFolders": {
@@ -274,11 +276,15 @@
         "dependencies": {
           "NlpToolkit-Classification": {
             "target": "Package",
-            "version": "[1.0.7, )"
+            "version": "[1.0.8, )"
+          },
+          "NlpToolkit-Dictionary": {
+            "target": "Package",
+            "version": "[1.0.19, )"
           },
           "NlpToolkit-WordToVec": {
             "target": "Package",
-            "version": "[1.0.5, )"
+            "version": "[1.0.6, )"
           }
         },
         "imports": [
@@ -300,16 +306,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: NlpToolkit-Classification from 1.0.8 to 1.0.7. Reference the package directly from the project to select a different version. \r\n SequenceProcessing -> NlpToolkit-ComputationalGraph -> NlpToolkit-Classification (>= 1.0.8) \r\n SequenceProcessing -> NlpToolkit-Classification (>= 1.0.7)",
-      "libraryId": "NlpToolkit-Classification",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

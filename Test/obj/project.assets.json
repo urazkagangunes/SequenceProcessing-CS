@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {
+    "net8.0": {
       "Microsoft.CodeCoverage/16.4.0": {
         "type": "package",
         "compile": {
@@ -469,25 +469,26 @@
           "lib/netcoreapp2.2/DataStructure.dll": {}
         }
       },
-      "NlpToolkit-Dictionary/1.0.11": {
+      "NlpToolkit-Dictionary/1.0.19": {
         "type": "package",
         "dependencies": {
-          "NlpToolkit-Math": "1.0.3"
+          "NlpToolkit-Math": "1.0.8",
+          "NlpToolkit-Util": "1.0.8"
         },
         "compile": {
-          "lib/netcoreapp2.2/Dictionary.dll": {}
+          "lib/net8.0/Dictionary.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/Dictionary.dll": {}
+          "lib/net8.0/Dictionary.dll": {}
         }
       },
-      "NlpToolkit-Math/1.0.6": {
+      "NlpToolkit-Math/1.0.9": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp3.1/Math.dll": {}
+          "lib/net8.0/Math.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Math.dll": {}
+          "lib/net8.0/Math.dll": {}
         }
       },
       "NlpToolkit-Sampling/1.0.3": {
@@ -499,13 +500,13 @@
           "lib/netcoreapp2.2/Sampling.dll": {}
         }
       },
-      "NlpToolkit-Util/1.0.6": {
+      "NlpToolkit-Util/1.0.8": {
         "type": "package",
         "compile": {
-          "lib/netcoreapp2.2/Util.dll": {}
+          "lib/net8.0/Util.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp2.2/Util.dll": {}
+          "lib/net8.0/Util.dll": {}
         }
       },
       "NlpToolkit-WordToVec/1.0.5": {
@@ -1427,9 +1428,29 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
+      "NlpToolkit-ComputationalGraph/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "NlpToolkit-Classification": "1.0.8",
+          "NlpToolkit-Math": "1.0.9"
+        },
+        "compile": {
+          "bin/placeholder/NlpToolkit-ComputationalGraph.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NlpToolkit-ComputationalGraph.dll": {}
+        }
+      },
       "SequenceProcessing/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "NlpToolkit-Classification": "1.0.8",
+          "NlpToolkit-ComputationalGraph": "1.0.0",
+          "NlpToolkit-Dictionary": "1.0.19",
+          "NlpToolkit-WordToVec": "1.0.6"
+        },
         "compile": {
           "bin/placeholder/SequenceProcessing.dll": {}
         },
@@ -2080,27 +2101,27 @@
         "nlptoolkit-datastructure.nuspec"
       ]
     },
-    "NlpToolkit-Dictionary/1.0.11": {
-      "sha512": "EfYxrxnK71HWkach7Ztp21xDdqZTrSsU5lp5bMzQL7K8V0KIN5swH4/oDEhzsNFL5TNolwPjdPih7BzxeLUL6Q==",
+    "NlpToolkit-Dictionary/1.0.19": {
+      "sha512": "/5fNpftFXH7AO9lo3nsc+Jy9qk397wKU68mXfvBGqlUqDHlTQvFT4tUOp0xNCoFcTyyOi2y67W0m/OgP27sMKA==",
       "type": "package",
-      "path": "nlptoolkit-dictionary/1.0.11",
+      "path": "nlptoolkit-dictionary/1.0.19",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/Dictionary.dll",
-        "nlptoolkit-dictionary.1.0.11.nupkg.sha512",
+        "lib/net8.0/Dictionary.dll",
+        "nlptoolkit-dictionary.1.0.19.nupkg.sha512",
         "nlptoolkit-dictionary.nuspec"
       ]
     },
-    "NlpToolkit-Math/1.0.6": {
-      "sha512": "0lBDcTMxIbdpxipxBi/V8nlfO/08OF8Bfav5+VqeLmxhmM6S1b+VJ40M+B8TZEi7JvNp5NrBBr5uNeveU7GVNw==",
+    "NlpToolkit-Math/1.0.9": {
+      "sha512": "fj4dRfd+///PGRWVqfKd3miFnHVQyWNhc+ZZYIYRrB4HvYyv89p9fvAYKnBYNPDZ3Fbwxkh6xipisBjlx88jxw==",
       "type": "package",
-      "path": "nlptoolkit-math/1.0.6",
+      "path": "nlptoolkit-math/1.0.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp3.1/Math.dll",
-        "nlptoolkit-math.1.0.6.nupkg.sha512",
+        "lib/net8.0/Math.dll",
+        "nlptoolkit-math.1.0.9.nupkg.sha512",
         "nlptoolkit-math.nuspec"
       ]
     },
@@ -2116,15 +2137,15 @@
         "nlptoolkit-sampling.nuspec"
       ]
     },
-    "NlpToolkit-Util/1.0.6": {
-      "sha512": "yH/F/NLeLrFaq+LZ/eI2rcShXnaNeicKs3JJ0k9ZdAVE8bh8s9RPqnqBE72XetgmolDS8OdkEUs/PuJd3n5NSA==",
+    "NlpToolkit-Util/1.0.8": {
+      "sha512": "I9ifr9k5MuoEIiRJ8UUQQlHvFU8F3rgL4lKN5BuuJdKBQ6kkzxgFANB0rulky6ltbyXCppBjcwBI0a0zllDD+g==",
       "type": "package",
-      "path": "nlptoolkit-util/1.0.6",
+      "path": "nlptoolkit-util/1.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netcoreapp2.2/Util.dll",
-        "nlptoolkit-util.1.0.6.nupkg.sha512",
+        "lib/net8.0/Util.dll",
+        "nlptoolkit-util.1.0.8.nupkg.sha512",
         "nlptoolkit-util.nuspec"
       ]
     },
@@ -4918,6 +4939,11 @@
         "system.xml.xpath.xmldocument.nuspec"
       ]
     },
+    "NlpToolkit-ComputationalGraph/1.0.0": {
+      "type": "project",
+      "path": "../../ComputationalGraph-CS/ComputationalGraph/ComputationalGraph.csproj",
+      "msbuildProject": "../../ComputationalGraph-CS/ComputationalGraph/ComputationalGraph.csproj"
+    },
     "SequenceProcessing/1.0.0": {
       "type": "project",
       "path": "../SequenceProcessing/SequenceProcessing.csproj",
@@ -4925,10 +4951,11 @@
     }
   },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": [
+    "net8.0": [
       "Microsoft.NET.Test.Sdk >= 16.4.0",
       "NUnit3TestAdapter >= 3.15.1",
       "NlpToolkit-Classification >= 1.0.7",
+      "NlpToolkit-Dictionary >= 1.0.19",
       "NlpToolkit-WordToVec >= 1.0.5",
       "SequenceProcessing >= 1.0.0",
       "nunit >= 3.12.0"
@@ -4956,7 +4983,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "netcoreapp3.1"
+        "net8.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -4964,8 +4991,8 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "projectReferences": {
             "C:\\Users\\ASUS\\RiderProjects\\SequenceProcessing-CS\\SequenceProcessing\\SequenceProcessing.csproj": {
               "projectPath": "C:\\Users\\ASUS\\RiderProjects\\SequenceProcessing-CS\\SequenceProcessing\\SequenceProcessing.csproj"
@@ -4986,8 +5013,8 @@
       "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
-      "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
+      "net8.0": {
+        "targetAlias": "net8.0",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
@@ -5000,6 +5027,10 @@
           "NlpToolkit-Classification": {
             "target": "Package",
             "version": "[1.0.7, )"
+          },
+          "NlpToolkit-Dictionary": {
+            "target": "Package",
+            "version": "[1.0.19, )"
           },
           "NlpToolkit-WordToVec": {
             "target": "Package",
@@ -5021,37 +5052,32 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[3.1.10, 3.1.10]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[3.1.0, 3.1.0]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[3.1.0, 3.1.0]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
   "logs": [
     {
-      "code": "NU1201",
+      "code": "NU1605",
       "level": "Error",
-      "message": "Project SequenceProcessing is not compatible with netcoreapp3.1 (.NETCoreApp,Version=v3.1). Project SequenceProcessing supports: net8.0 (.NETCoreApp,Version=v8.0)",
-      "libraryId": "SequenceProcessing",
+      "message": "Warning As Error: Detected package downgrade: NlpToolkit-Classification from 1.0.8 to 1.0.7. Reference the package directly from the project to select a different version. \r\n Test -> SequenceProcessing -> NlpToolkit-Classification (>= 1.0.8) \r\n Test -> NlpToolkit-Classification (>= 1.0.7)",
+      "libraryId": "NlpToolkit-Classification",
       "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Warning As Error: Detected package downgrade: NlpToolkit-WordToVec from 1.0.6 to 1.0.5. Reference the package directly from the project to select a different version. \r\n Test -> SequenceProcessing -> NlpToolkit-WordToVec (>= 1.0.6) \r\n Test -> NlpToolkit-WordToVec (>= 1.0.5)",
+      "libraryId": "NlpToolkit-WordToVec",
+      "targetGraphs": [
+        "net8.0"
       ]
     }
   ]

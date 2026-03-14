@@ -40,7 +40,7 @@ namespace SequenceProcessing.Parameters
             List<double> gammaOutputValues,
             List<double> betaInputValues,
             List<double> betaOutputValues)
-            : base(seed, epoch, optimizer, initialization)
+            : base(seed, epoch, optimizer, initialization, loss, 0.0, 1)
         {
             this.L = wordEmbeddingLength + 1;
             this.N = multiHeadAttentionLength;

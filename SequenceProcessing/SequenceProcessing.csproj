@@ -5,8 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="NlpToolkit-Classification" Version="1.0.7" />
-      <PackageReference Include="NlpToolkit-WordToVec" Version="1.0.5" />
+      <PackageReference Include="NlpToolkit-Classification" Version="1.0.8" />
+      <PackageReference Include="NlpToolkit-WordToVec" Version="1.0.6" />
+      <PackageReference Include="NlpToolkit-Dictionary" Version="1.0.19" />
     </ItemGroup>
 
     <ItemGroup>

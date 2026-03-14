@@ -133,11 +133,15 @@
           "dependencies": {
             "NlpToolkit-Classification": {
               "target": "Package",
-              "version": "[1.0.7, )"
+              "version": "[1.0.8, )"
+            },
+            "NlpToolkit-Dictionary": {
+              "target": "Package",
+              "version": "[1.0.19, )"
             },
             "NlpToolkit-WordToVec": {
               "target": "Package",
-              "version": "[1.0.5, )"
+              "version": "[1.0.6, )"
             }
           },
           "imports": [

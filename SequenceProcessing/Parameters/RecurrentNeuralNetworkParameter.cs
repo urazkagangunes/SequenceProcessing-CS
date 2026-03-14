@@ -22,7 +22,7 @@ namespace SequenceProcessing.Parameters
             List<int> hiddenLayers,
             List<Function> functions,
             int classLabelSize)
-            : base(seed, epoch, optimizer, initialization)
+            : base(seed, epoch, optimizer, initialization, loss, 0.0, 1)
         {
             this.hiddenLayers = hiddenLayers;
             this.functions = functions;

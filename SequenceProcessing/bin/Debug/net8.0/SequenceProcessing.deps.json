@@ -1,0 +1,198 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "SequenceProcessing/1.0.0": {
+        "dependencies": {
+          "NlpToolkit-Classification": "1.0.8",
+          "NlpToolkit-ComputationalGraph": "1.0.0",
+          "NlpToolkit-Dictionary": "1.0.19",
+          "NlpToolkit-WordToVec": "1.0.6",
+          "ComputationalGraph": "1.0.0.0"
+        },
+        "runtime": {
+          "SequenceProcessing.dll": {}
+        }
+      },
+      "NlpToolkit-Classification/1.0.8": {
+        "dependencies": {
+          "NlpToolkit-DataStructure": "1.0.6",
+          "NlpToolkit-Math": "1.0.9",
+          "NlpToolkit-Sampling": "1.0.4",
+          "NlpToolkit-Util": "1.0.8"
+        },
+        "runtime": {
+          "lib/net8.0/Classification.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-Corpus/1.0.17": {
+        "dependencies": {
+          "NlpToolkit-DataStructure": "1.0.6",
+          "NlpToolkit-Dictionary": "1.0.19",
+          "NlpToolkit-Sampling": "1.0.4"
+        },
+        "runtime": {
+          "lib/net8.0/Corpus.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-DataStructure/1.0.6": {
+        "runtime": {
+          "lib/net8.0/DataStructure.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-Dictionary/1.0.19": {
+        "dependencies": {
+          "NlpToolkit-Math": "1.0.9",
+          "NlpToolkit-Util": "1.0.8"
+        },
+        "runtime": {
+          "lib/net8.0/Dictionary.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-Math/1.0.9": {
+        "runtime": {
+          "lib/net8.0/Math.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-Sampling/1.0.4": {
+        "runtime": {
+          "lib/net8.0/Sampling.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-Util/1.0.8": {
+        "runtime": {
+          "lib/net8.0/Util.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-WordToVec/1.0.6": {
+        "dependencies": {
+          "NlpToolkit-Corpus": "1.0.17"
+        },
+        "runtime": {
+          "lib/net8.0/WordToVec.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NlpToolkit-ComputationalGraph/1.0.0": {
+        "dependencies": {
+          "NlpToolkit-Classification": "1.0.8",
+          "NlpToolkit-Math": "1.0.9"
+        },
+        "runtime": {
+          "ComputationalGraph.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ComputationalGraph/1.0.0.0": {
+        "runtime": {
+          "ComputationalGraph.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SequenceProcessing/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NlpToolkit-Classification/1.0.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-feWjdvRSHTD2gCop9OjvKgCN5mka+wK0Yj3FBacj6dbbr0j8kqI722dH4g/b/98qvMywr+PeUbHnGNEsIIEqMA==",
+      "path": "nlptoolkit-classification/1.0.8",
+      "hashPath": "nlptoolkit-classification.1.0.8.nupkg.sha512"
+    },
+    "NlpToolkit-Corpus/1.0.17": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vDNgHMEoHzu2eAiFqyOEXYkRR2xpBfSqCzhxtsQ/Ku1FeVOzUnxPvFnEifJ6NvqF4IqiuZusyoYGAQuJhtQEUg==",
+      "path": "nlptoolkit-corpus/1.0.17",
+      "hashPath": "nlptoolkit-corpus.1.0.17.nupkg.sha512"
+    },
+    "NlpToolkit-DataStructure/1.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uzgBf4MyD6eAbohS9AjpbpBIo0JlRdHs8FHLvQdGaTXxqTEL1aiGjVibEs/jtJO/sQNZwvUBQhPktfwbfxMxcA==",
+      "path": "nlptoolkit-datastructure/1.0.6",
+      "hashPath": "nlptoolkit-datastructure.1.0.6.nupkg.sha512"
+    },
+    "NlpToolkit-Dictionary/1.0.19": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/5fNpftFXH7AO9lo3nsc+Jy9qk397wKU68mXfvBGqlUqDHlTQvFT4tUOp0xNCoFcTyyOi2y67W0m/OgP27sMKA==",
+      "path": "nlptoolkit-dictionary/1.0.19",
+      "hashPath": "nlptoolkit-dictionary.1.0.19.nupkg.sha512"
+    },
+    "NlpToolkit-Math/1.0.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fj4dRfd+///PGRWVqfKd3miFnHVQyWNhc+ZZYIYRrB4HvYyv89p9fvAYKnBYNPDZ3Fbwxkh6xipisBjlx88jxw==",
+      "path": "nlptoolkit-math/1.0.9",
+      "hashPath": "nlptoolkit-math.1.0.9.nupkg.sha512"
+    },
+    "NlpToolkit-Sampling/1.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kQ70uCGg5yAh61fhLbYz666Ckm/J/2NNTcs5PVWSU9CdWe4GKjINsq1Kvi/Sr6CW7CRvZIbtg8fZ47JfED2WMg==",
+      "path": "nlptoolkit-sampling/1.0.4",
+      "hashPath": "nlptoolkit-sampling.1.0.4.nupkg.sha512"
+    },
+    "NlpToolkit-Util/1.0.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I9ifr9k5MuoEIiRJ8UUQQlHvFU8F3rgL4lKN5BuuJdKBQ6kkzxgFANB0rulky6ltbyXCppBjcwBI0a0zllDD+g==",
+      "path": "nlptoolkit-util/1.0.8",
+      "hashPath": "nlptoolkit-util.1.0.8.nupkg.sha512"
+    },
+    "NlpToolkit-WordToVec/1.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Rhf+6Y4QsI4eV/cLYJkLCQhas6XJZ9jl9Xc5197+UQfPk2UrUQ1UNtxoXFCOMUV0pMUXFhgptz8OE10cGd7onQ==",
+      "path": "nlptoolkit-wordtovec/1.0.6",
+      "hashPath": "nlptoolkit-wordtovec.1.0.6.nupkg.sha512"
+    },
+    "NlpToolkit-ComputationalGraph/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ComputationalGraph/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
