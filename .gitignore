@@ -1,0 +1,29 @@
+# Build folders
+bin/
+obj/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Test / coverage
+TestResults/
+*.trx
+coverage/
+*.coverage
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local temp files
+*.tmp
+*.temp
