@@ -13,46 +13,58 @@ namespace SequenceProcessing.Classification
     [Serializable]
     public class RecurrentNeuralNetworkModel : ComputationalGraph.ComputationalGraph
     {
-        protected readonly int wordEmbeddingLength;
-        protected List<Switch> switches;
+        protected readonly int WordEmbeddingLength;
+        protected List<Switch> Switches;
 
+        /**
+         * <summary>Creates a recurrent neural network model with the given parameters and word embedding length.</summary>
+         *
+         * <param name="parameter">The neural network parameters.</param>
+         * <param name="wordEmbeddingLength">The word embedding length.</param>
+         */
         public RecurrentNeuralNetworkModel(NeuralNetworkParameter parameter, int wordEmbeddingLength)
             : base(parameter)
         {
-            this.wordEmbeddingLength = wordEmbeddingLength;
-            this.switches = new List<Switch>();
+            WordEmbeddingLength = wordEmbeddingLength;
+            Switches = new List<Switch>();
         }
 
-        protected List<int> createInputTensors(Tensor instance)
+        /**
+         * <summary>Creates input tensors and returns class labels for the given instance.</summary>
+         *
+         * <param name="instance">The input tensor instance.</param>
+         * <returns>The class labels extracted from the instance.</returns>
+         */
+        protected List<int> CreateInputTensors(Tensor instance)
         {
-            List<int> classLabels = new List<int>();
-            int timeStep = instance.GetShape()[0] / (wordEmbeddingLength + 1);
-            int j = 0;
+            var classLabels = new List<int>();
+            var timeStep = instance.GetShape()[0] / (WordEmbeddingLength + 1);
+            var j = 0;
 
-            for (int i = 0; i < this.inputNodes.Count - 1; i++)
+            for (var i = 0; i < this.InputNodes.Count - 1; i++)
             {
                 if (i < timeStep)
                 {
-                    this.switches[i].setTurn(true);
+                    this.Switches[i].SetTurn(true);
 
-                    List<double> values = new List<double>();
-                    for (int k = 0; k < wordEmbeddingLength; k++)
+                    var values = new List<double>();
+                    for (var k = 0; k < WordEmbeddingLength; k++)
                     {
-                        values.Add(instance.GetValue(new int[] { j }));
+                        values.Add(instance.GetValue(new[] { j }));
                         j++;
                     }
 
-                    classLabels.Add((int)instance.GetValue(new int[] { j }));
+                    classLabels.Add((int)instance.GetValue(new[] { j }));
                     j++;
 
-                    inputNodes[i].setValue(new Tensor(values, new int[] { 1, values.Count }));
+                    InputNodes[i].SetValue(new Tensor(values, new[] { 1, values.Count }));
                 }
                 else
                 {
-                    this.switches[i].setTurn(false);
+                    this.Switches[i].SetTurn(false);
 
-                    List<double> values = new List<double>();
-                    for (int k = 0; k < wordEmbeddingLength; k++)
+                    var values = new List<double>();
+                    for (var k = 0; k < WordEmbeddingLength; k++)
                     {
                         values.Add(0.0);
                         j++;
@@ -61,35 +73,41 @@ namespace SequenceProcessing.Classification
                     classLabels.Add(0);
                     j++;
 
-                    inputNodes[i].setValue(new Tensor(values, new int[] { 1, values.Count }));
+                    InputNodes[i].SetValue(new Tensor(values, new[] { 1, values.Count }));
                 }
             }
 
             return classLabels;
         }
 
-        protected void train(List<Tensor> trainSet, Random random)
+        /**
+         * <summary>Trains the model internally with the given training set and randomizer.</summary>
+         *
+         * <param name="trainSet">The training set.</param>
+         * <param name="random">The random generator used for shuffling.</param>
+         */
+        protected void Train(List<Tensor> trainSet, Random random)
         {
-            for (int i = 0; i < parameters.getEpoch(); i++)
+            for (var i = 0; i < Parameters.GetEpoch(); i++)
             {
-                for (int j = 0; j < trainSet.Count; j++)
+                for (var j = 0; j < trainSet.Count; j++)
                 {
-                    int i1 = random.Next(trainSet.Count);
-                    int i2 = random.Next(trainSet.Count);
+                    var i1 = random.Next(trainSet.Count);
+                    var i2 = random.Next(trainSet.Count);
 
-                    Tensor tmp = trainSet[i1];
+                    var tmp = trainSet[i1];
                     trainSet[i1] = trainSet[i2];
                     trainSet[i2] = tmp;
                 }
 
-                foreach (Tensor instance in trainSet)
+                foreach (var instance in trainSet)
                 {
-                    List<int> classLabels = createInputTensors(instance);
-                    List<double> classLabelValues = new List<double>();
+                    var classLabels = CreateInputTensors(instance);
+                    var classLabelValues = new List<double>();
 
-                    foreach (int classLabel in classLabels)
+                    foreach (var classLabel in classLabels)
                     {
-                        for (int inputIndex = 0; inputIndex < ((RecurrentNeuralNetworkParameter)this.parameters).getClassLabelSize(); inputIndex++)
+                        for (var inputIndex = 0; inputIndex < ((RecurrentNeuralNetworkParameter)this.Parameters).GetClassLabelSize(); inputIndex++)
                         {
                             if (inputIndex == classLabel)
                             {
@@ -102,65 +120,75 @@ namespace SequenceProcessing.Classification
                         }
                     }
 
-                    inputNodes[this.inputNodes.Count - 1].setValue(
+                    InputNodes[this.InputNodes.Count - 1].SetValue(
                         new Tensor(
                             classLabelValues,
-                            new int[]
+                            new[]
                             {
                                 classLabels.Count,
-                                ((RecurrentNeuralNetworkParameter)this.parameters).getClassLabelSize()
+                                ((RecurrentNeuralNetworkParameter)this.Parameters).GetClassLabelSize()
                             }
                         )
                     );
 
-                    this.forwardCalculation();
-                    this.backpropagation();
+                    this.ForwardCalculation();
+                    this.Backpropagation();
                 }
 
-                parameters.getOptimizer().setLearningRate();
+                Parameters.GetOptimizer().SetLearningRate();
             }
         }
 
-        protected int findTimeStep(List<Tensor> trainSet)
+        /**
+         * <summary>Finds the maximum time step in the given training set.</summary>
+         *
+         * <param name="trainSet">The training set.</param>
+         * <returns>The maximum time step.</returns>
+         */
+        protected int FindTimeStep(List<Tensor> trainSet)
         {
-            int timeStep = -1;
+            var timeStep = -1;
 
-            foreach (Tensor tensor in trainSet)
+            foreach (var tensor in trainSet)
             {
-                int size = tensor.GetShape()[0];
-                if (timeStep < size / (wordEmbeddingLength + 1))
+                var size = tensor.GetShape()[0];
+                if (timeStep < size / (WordEmbeddingLength + 1))
                 {
-                    timeStep = size / (wordEmbeddingLength + 1);
+                    timeStep = size / (WordEmbeddingLength + 1);
                 }
             }
 
             return timeStep;
         }
 
-        // Many-to-Many RNN
-        public override void train(List<Tensor> trainSet)
+        /**
+         * <summary>Trains the many-to-many recurrent neural network model.</summary>
+         *
+         * <param name="trainSet">The training set.</param>
+         */
+        public override void Train(List<Tensor> trainSet)
         {
-            Random random = new Random(parameters.GetSeed());
-            int timeStep = findTimeStep(trainSet);
+            var random = new Random(Parameters.GetSeed());
+            var timeStep = FindTimeStep(trainSet);
 
-            List<ComputationalNode> weights = new List<ComputationalNode>();
-            List<ComputationalNode> recurrentWeights = new List<ComputationalNode>();
+            var weights = new List<ComputationalNode>();
+            var recurrentWeights = new List<ComputationalNode>();
 
-            int currentLength = wordEmbeddingLength + 1;
+            var currentLength = WordEmbeddingLength + 1;
 
-            for (int i = 0; i < ((RecurrentNeuralNetworkParameter)parameters).size(); i++)
+            for (var i = 0; i < ((RecurrentNeuralNetworkParameter)Parameters).Size(); i++)
             {
                 weights.Add(
                     new MultiplicationNode(
                         new Tensor(
-                            parameters.initializeWeights(
+                            Parameters.InitializeWeights(
                                 currentLength,
-                                ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
+                                ((RecurrentNeuralNetworkParameter)Parameters).GetHiddenLayer(i),
                                 random),
-                            new int[]
+                            new[]
                             {
                                 currentLength,
-                                ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i)
+                                ((RecurrentNeuralNetworkParameter)Parameters).GetHiddenLayer(i)
                             }
                         )
                     )
@@ -169,138 +197,150 @@ namespace SequenceProcessing.Classification
                 recurrentWeights.Add(
                     new MultiplicationNode(
                         new Tensor(
-                            parameters.initializeWeights(
-                                ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
-                                ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
+                            Parameters.InitializeWeights(
+                                ((RecurrentNeuralNetworkParameter)Parameters).GetHiddenLayer(i),
+                                ((RecurrentNeuralNetworkParameter)Parameters).GetHiddenLayer(i),
                                 random),
-                            new int[]
+                            new[]
                             {
-                                ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i),
-                                ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i)
+                                ((RecurrentNeuralNetworkParameter)Parameters).GetHiddenLayer(i),
+                                ((RecurrentNeuralNetworkParameter)Parameters).GetHiddenLayer(i)
                             }
                         )
                     )
                 );
 
-                currentLength = ((RecurrentNeuralNetworkParameter)parameters).getHiddenLayer(i) + 1;
+                currentLength = ((RecurrentNeuralNetworkParameter)Parameters).GetHiddenLayer(i) + 1;
             }
 
             weights.Add(
                 new MultiplicationNode(
                     new Tensor(
-                        parameters.initializeWeights(
+                        Parameters.InitializeWeights(
                             currentLength,
-                            ((RecurrentNeuralNetworkParameter)parameters).getClassLabelSize(),
+                            ((RecurrentNeuralNetworkParameter)Parameters).GetClassLabelSize(),
                             random),
-                        new int[]
+                        new[]
                         {
                             currentLength,
-                            ((RecurrentNeuralNetworkParameter)parameters).getClassLabelSize()
+                            ((RecurrentNeuralNetworkParameter)Parameters).GetClassLabelSize()
                         }
                     )
                 )
             );
 
-            List<ComputationalNode> currentOldLayers = new List<ComputationalNode>();
-            List<ComputationalNode> outputNodes = new List<ComputationalNode>();
+            var currentOldLayers = new List<ComputationalNode>();
+            var outputNodes = new List<ComputationalNode>();
 
-            for (int k = 0; k < timeStep; k++)
+            for (var k = 0; k < timeStep; k++)
             {
-                this.switches.Add(new Switch());
+                this.Switches.Add(new Switch());
 
-                List<ComputationalNode> newOldLayers = new List<ComputationalNode>();
-                ComputationalNode input = new MultiplicationNode(false, true);
-                inputNodes.Add(input);
+                var newOldLayers = new List<ComputationalNode>();
+                var input = new MultiplicationNode(false, true);
+                InputNodes.Add(input);
 
                 ComputationalNode current = input;
 
-                for (int i = 0; i < ((RecurrentNeuralNetworkParameter)parameters).size(); i++)
+                for (var i = 0; i < ((RecurrentNeuralNetworkParameter)Parameters).Size(); i++)
                 {
                     ComputationalNode aw;
-                    ComputationalNode aFunction;
+                    ComputationalNode activationNode;
 
                     if (currentOldLayers.Count > 0)
                     {
-                        aw = this.addEdge(current, weights[i]);
+                        aw = this.AddEdge(current, weights[i]);
 
-                        ComputationalNode oWithoutBias = this.addEdge(currentOldLayers[i], new RemoveBias());
-                        ComputationalNode ou = this.addEdge(oWithoutBias, recurrentWeights[i]);
-                        ComputationalNode a = this.addAdditionEdge(aw, ou, false);
+                        var oldWithoutBias = this.AddEdge(currentOldLayers[i], new RemoveBias());
+                        var recurrentNode = this.AddEdge(oldWithoutBias, recurrentWeights[i]);
+                        var sumNode = this.AddAdditionEdge(aw, recurrentNode, false);
 
-                        aFunction = this.addEdge(
-                            a,
-                            ((RecurrentNeuralNetworkParameter)parameters).getActivationFunction(i),
+                        activationNode = this.AddEdge(
+                            sumNode,
+                            ((RecurrentNeuralNetworkParameter)Parameters).GetActivationFunction(i),
                             true);
                     }
                     else
                     {
-                        aw = this.addEdge(current, weights[i], false);
+                        aw = this.AddEdge(current, weights[i], false);
 
-                        aFunction = this.addEdge(
+                        activationNode = this.AddEdge(
                             aw,
-                            ((RecurrentNeuralNetworkParameter)parameters).getActivationFunction(i),
+                            ((RecurrentNeuralNetworkParameter)Parameters).GetActivationFunction(i),
                             true);
                     }
 
-                    current = aFunction;
-                    newOldLayers.Add(aFunction);
+                    current = activationNode;
+                    newOldLayers.Add(activationNode);
                 }
 
                 currentOldLayers = newOldLayers;
 
-                ComputationalNode node = this.addEdge(current, weights[weights.Count - 1]);
-                outputNodes.Add(this.addEdge(node, switches[k]));
+                var node = this.AddEdge(current, weights[weights.Count - 1]);
+                outputNodes.Add(this.AddEdge(node, Switches[k]));
             }
 
-            ConcatenatedNode concatenatedNode = (ConcatenatedNode)this.concatEdges(outputNodes, 0);
-            this.outputNode = this.addEdge(concatenatedNode, new Softmax());
+            var concatenatedNode = (ConcatenatedNode)this.ConcatEdges(outputNodes, 0);
+            this.OutputNode = this.AddEdge(concatenatedNode, new Softmax());
 
-            ComputationalNode classLabelNode = new ComputationalNode(false, false);
-            this.inputNodes.Add(classLabelNode);
+            var classLabelNode = new ComputationalNode(false, false);
+            this.InputNodes.Add(classLabelNode);
 
-            List<ComputationalNode> lossInputs = new List<ComputationalNode>();
-            lossInputs.Add(this.outputNode);
+            var lossInputs = new List<ComputationalNode>();
+            lossInputs.Add(this.OutputNode);
             lossInputs.Add(classLabelNode);
 
-            this.addFunctionEdge(lossInputs, parameters.getLossFunction(), false);
-            train(trainSet, random);
+            this.AddFunctionEdge(lossInputs, Parameters.GetLossFunction(), false);
+            Train(trainSet, random);
         }
 
-        protected override List<double> getOutputValue(ComputationalNode outputNode)
+        /**
+         * <summary>Returns the predicted output values from the output node.</summary>
+         *
+         * <param name="outputNode">The output node.</param>
+         * <returns>The predicted class indices.</returns>
+         */
+        protected override List<double> GetOutputValue(ComputationalNode outputNode)
         {
-            List<double> classLabels = new List<double>();
+            var classLabels = new List<double>();
 
-            for (int i = 0; i < outputNode.getValue().GetShape()[0]; i++)
+            for (var i = 0; i < outputNode.GetValue().GetShape()[0]; i++)
             {
-                int index = -1;
-                double max = double.MinValue;
+                var index = -1;
+                var max = double.MinValue;
 
-                for (int j = 0; j < outputNode.getValue().GetShape()[1]; j++)
+                for (var j = 0; j < outputNode.GetValue().GetShape()[1]; j++)
                 {
-                    if (max < outputNode.getValue().GetValue(new int[] { i, j }))
+                    if (max < outputNode.GetValue().GetValue(new[] { i, j }))
                     {
-                        max = outputNode.getValue().GetValue(new int[] { i, j });
+                        max = outputNode.GetValue().GetValue(new[] { i, j });
                         index = j;
                     }
                 }
 
-                classLabels.Add((double)index);
+                classLabels.Add(index);
             }
 
             return classLabels;
         }
 
-        public override ClassificationPerformance test(List<Tensor> testSet)
+        /**
+         * <summary>Tests the model with the given test set.</summary>
+         *
+         * <param name="testSet">The test set.</param>
+         * <returns>The classification performance.</returns>
+         */
+        public override ClassificationPerformance Test(List<Tensor> testSet)
         {
-            int count = 0;
-            int total = 0;
+            var count = 0;
+            var total = 0;
 
-            foreach (Tensor instance in testSet)
+            foreach (var instance in testSet)
             {
-                List<int> goldClassLabels = createInputTensors(instance);
-                List<double> classLabels = this.predict();
+                var goldClassLabels = CreateInputTensors(instance);
+                var classLabels = this.Predict();
 
-                for (int j = 0; j < (instance.GetShape()[0] / (wordEmbeddingLength + 1)); j++)
+                for (var j = 0; j < (instance.GetShape()[0] / (WordEmbeddingLength + 1)); j++)
                 {
                     if (goldClassLabels[j] == (int)classLabels[j])
                     {

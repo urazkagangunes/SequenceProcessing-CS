@@ -8,37 +8,55 @@ namespace SequenceProcessing.Functions
     [Serializable]
     public class SquareRoot : ComputationalGraph.Function.Function
     {
-        private readonly double epsilon;
+        private readonly double _epsilon;
 
+        /**
+         * <summary>Creates a square root function with the given epsilon value.</summary>
+         *
+         * <param name="epsilon">The epsilon value added for numerical stability.</param>
+         */
         public SquareRoot(double epsilon)
         {
-            this.epsilon = epsilon;
+            _epsilon = epsilon;
         }
 
-        public Tensor calculate(Tensor tensor)
+        /**
+         * <summary>Calculates the element-wise square root of the given tensor.</summary>
+         *
+         * <param name="tensor">The input tensor.</param>
+         * <returns>The resulting tensor after square root operation.</returns>
+         */
+        public Tensor Calculate(Tensor tensor)
         {
-            List<double> values = new List<double>();
+            var values = new List<double>();
 
-            for (int i = 0; i < tensor.GetShape()[0]; i++)
+            for (var i = 0; i < tensor.GetShape()[0]; i++)
             {
-                for (int j = 0; j < tensor.GetShape()[1]; j++)
+                for (var j = 0; j < tensor.GetShape()[1]; j++)
                 {
-                    values.Add(System.Math.Sqrt(this.epsilon + tensor.GetValue(new int[] { i, j })));
+                    values.Add(System.Math.Sqrt(_epsilon + tensor.GetValue(new[] { i, j })));
                 }
             }
 
             return new Tensor(values, tensor.GetShape());
         }
 
-        public Tensor derivative(Tensor tensor, Tensor backward)
+        /**
+         * <summary>Calculates the derivative of the square root function.</summary>
+         *
+         * <param name="tensor">The input tensor.</param>
+         * <param name="backward">The backward tensor.</param>
+         * <returns>The derivative tensor.</returns>
+         */
+        public Tensor Derivative(Tensor tensor, Tensor backward)
         {
-            List<double> values = new List<double>();
+            var values = new List<double>();
 
-            for (int i = 0; i < tensor.GetShape()[0]; i++)
+            for (var i = 0; i < tensor.GetShape()[0]; i++)
             {
-                for (int j = 0; j < tensor.GetShape()[1]; j++)
+                for (var j = 0; j < tensor.GetShape()[1]; j++)
                 {
-                    double val = tensor.GetValue(new int[] { i, j });
+                    var val = tensor.GetValue(new[] { i, j });
                     values.Add(1.0 / (2.0 * val));
                 }
             }
@@ -46,10 +64,17 @@ namespace SequenceProcessing.Functions
             return backward.HadamardProduct(new Tensor(values, tensor.GetShape()));
         }
 
-        public ComputationalNode addEdge(List<ComputationalNode> inputNodes, bool isBiased)
+        /**
+         * <summary>Adds a new function node to the graph and returns the created node.</summary>
+         *
+         * <param name="inputNodes">The input nodes of the function.</param>
+         * <param name="isBiased">Indicates whether the created node is biased.</param>
+         * <returns>The newly created computational node.</returns>
+         */
+        public ComputationalNode AddEdge(List<ComputationalNode> inputNodes, bool isBiased)
         {
-            ComputationalNode newNode = new FunctionNode(isBiased, this);
-            inputNodes[0].add(newNode);
+            var newNode = new FunctionNode(isBiased, this);
+            inputNodes[0].Add(newNode);
             return newNode;
         }
     }

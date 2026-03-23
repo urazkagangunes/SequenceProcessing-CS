@@ -8,32 +8,52 @@ namespace SequenceProcessing.Functions
     [Serializable]
     public class RemoveBias : ComputationalGraph.Function.Function
     {
-        public Tensor calculate(Tensor matrix)
+        /**
+         * <summary>Removes the bias value from the given tensor.</summary>
+         *
+         * <param name="matrix">The input tensor containing the bias value.</param>
+         * <returns>The tensor without the bias value.</returns>
+         */
+        public Tensor Calculate(Tensor matrix)
         {
-            List<double> data = (List<double>)matrix.GetData();
-            List<double> values = new List<double>();
+            var data = (List<double>)matrix.GetData();
+            var values = new List<double>();
 
-            for (int i = 0; i < data.Count - 1; i++)
+            for (var i = 0; i < data.Count - 1; i++)
             {
                 values.Add(data[i]);
             }
 
-            return new Tensor(values, new int[] { 1, values.Count });
+            return new Tensor(values, new[] { 1, values.Count });
         }
 
-        public Tensor derivative(Tensor value, Tensor backward)
+        /**
+         * <summary>Calculates the derivative of the remove-bias function.</summary>
+         *
+         * <param name="value">The input tensor.</param>
+         * <param name="backward">The backward tensor.</param>
+         * <returns>The derivative tensor with the bias gradient appended.</returns>
+         */
+        public Tensor Derivative(Tensor value, Tensor backward)
         {
-            List<double> values = (List<double>)backward.GetData();
-            List<double> newValues = new List<double>(values);
+            var values = (List<double>)backward.GetData();
+            var newValues = new List<double>(values);
             newValues.Add(0.0);
 
-            return new Tensor(newValues, new int[] { 1, newValues.Count });
+            return new Tensor(newValues, new[] { 1, newValues.Count });
         }
 
-        public ComputationalNode addEdge(List<ComputationalNode> inputNodes, bool isBiased)
+        /**
+         * <summary>Adds a new function node to the graph and returns the created node.</summary>
+         *
+         * <param name="inputNodes">The input nodes of the function.</param>
+         * <param name="isBiased">Indicates whether the created node is biased.</param>
+         * <returns>The newly created computational node.</returns>
+         */
+        public ComputationalNode AddEdge(List<ComputationalNode> inputNodes, bool isBiased)
         {
-            ComputationalNode newNode = new FunctionNode(isBiased, this);
-            inputNodes[0].add(newNode);
+            var newNode = new FunctionNode(isBiased, this);
+            inputNodes[0].Add(newNode);
             return newNode;
         }
     }
