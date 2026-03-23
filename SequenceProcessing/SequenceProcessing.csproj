@@ -6,16 +6,13 @@
 
     <ItemGroup>
       <PackageReference Include="NlpToolkit-Classification" Version="1.0.8" />
+      <PackageReference Include="NlpToolkit-ComputationalGraph" Version="1.0.0" />
       <PackageReference Include="NlpToolkit-WordToVec" Version="1.0.6" />
       <PackageReference Include="NlpToolkit-Dictionary" Version="1.0.19" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Sequence" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\ComputationalGraph-CS\ComputationalGraph\ComputationalGraph.csproj" />
     </ItemGroup>
 
 </Project>
